@@ -65,6 +65,7 @@ interface ContainerSectionProps
     | "content"
     | "contentContainer"
     | "separator"
+    | "log"
   > {
   title?: string;
   description?: string | React.JSX.Element;
@@ -116,9 +117,13 @@ export const ContainerSectionLite = ({
         </section>
       )}
 
-      {log && <ContainerLog ref={ref} />}
+      {log && (
+        <aside className={classNames?.log}>
+          <ContainerLog ref={ref} />
+        </aside>
+      )}
       <section
-        className={clsx("@container grow", classNames?.contentContainer)}
+        className={clsx("@container grow z-50", classNames?.contentContainer)}
         ref={ref}
       >
         <div className={clsx(`content h-full`, classNames?.content)}>

@@ -1,113 +1,60 @@
-# react-tanstack-form-shadcn
+# Tailwind CSS Playground
 
-A powerful form factory that combines [TanStack Form](https://tanstack.com/form) with [Shadcn UI](https://ui.shadcn.com/) components. Features built-in lazy loading, validation support, and a type-safe API.
+A dedicated project for testing and playing with Tailwind CSS, specifically designed to help you experiment with Breakpoints and Container Queries with ease.
 
 ## 🚀 Features
 
-- **Pre-configured Components**: Includes Shadcn UI wrappers for common form fields (Input, Select, CheckBox, Switch, etc.).
-- **Lazy Loading**: Field components are lazy-loaded for optimal performance.
-- **Type Safety**: Full TypeScript support leveraging TanStack Form's type inference.
-- **Validation**: Integrated with standard TanStack Form validation.
+- **Resizable Container**: Instantly resize the container to visualize your layout on different screen sizes.
+- **Live Width Indicator**: Shows the current container width in `rem` in real-time.
+- **Container Queries Ready**: Built-in support for `@container` queries, allowing you to test component layouts based on container size immediately.
+- **Tailwind v4 (Preview)**: Pre-configured and ready to use with Tailwind CSS.
 
-## 📦 Installation
+## 📦 Installation & Getting Started
 
-```bash
-npm install react-tanstack-form-shadcn
-# Peer dependencies
-npm install @tanstack/react-form @tanstack/react-query react react-dom
-```
+1. Install Dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Run the project:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Open your browser to the URL shown (usually `http://localhost:5173`).
 
 ## 🛠️ Usage
 
-### 1. Create your Form Factory
-
-Use `createAppForm` to create a form instance with the default component registry.
-
-```tsx
-// src/hooks/useAppForm.ts
-import { createAppForm } from "react-tanstack-form-shadcn";
-
-// You can override or add components in the config if needed
-
-export const { useAppForm, withFieldGroup, withForm } = createAppForm();
-```
-
-### 2. Define and Render a Form
+1. **Resize**: Drag the center handle to adjust the width of the display area.
+2. **Check Breakpoints**: Watch the width indicator at the top to see which breakpoint is currently active.
+3. **Edit Code**: Modify `src/components/ResizeContainer.tsx` to insert the Tailwind code you want to test.
 
 ```tsx
-import { useAppForm } from "./hooks/useAppForm";
-import { z } from "zod"; // Optional: for validation
-
-export default function MyForm() {
-  const form = useAppForm({
-    defaultValues: {
-      email: "",
-      marketingOptIn: false,
-    },
-    onSubmit: async ({ value }) => {
-      console.log("Submitted:", value);
-    },
-  });
-
+// src/components/ResizeContainer.tsx
+export default function ResizeContainer() {
   return (
-    <div>
-      <h2 className="text-lg font-bold">Registration</h2>
-      <form.Provider>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="space-y-4"
-        >
-          {/* Text Input */}
-          <form.Field
-            name="email"
-            children={(field) => (
-              // "Input" maps to the pre-registered Shadcn FieldInput component
-              <field.Input
-                label="Email Address"
-                placeholder="hello@example.com"
-              />
-            )}
-          />
-
-          {/* Checkbox */}
-          <form.Field
-            name="marketingOptIn"
-            children={(field) => (
-              // "CheckBox" maps to the pre-registered Shadcn FieldCheckBox component
-              <field.CheckBox label="Receive marketing emails" />
-            )}
-          />
-
-          {/* Submit Button (using helper component) */}
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
-              <button type="submit" disabled={!canSubmit}>
-                {isSubmitting ? "..." : "Submit"}
-              </button>
-            )}
-          />
-        </form>
-      </form.Provider>
-    </div>
+    <ResizablePanel className="bg-secondary">
+      <ContainerSectionLite
+        log
+        className="@container relative h-full"
+        classNames={{ contentContainer: "p-5" }}
+      >
+        {/* Put your code here */}
+        <div className="bg-red-500 md:bg-blue-500 @md:bg-green-500 p-4 rounded">
+          Resize me!
+        </div>
+      </ContainerSectionLite>
+    </ResizablePanel>
   );
 }
 ```
 
-## 🧩 Default Component Registry
+## 🧩 Components
 
-The `createAppForm` factory comes with the following components lazy-loaded by default:
-
-- **Input**: `FieldInput` (Text inputs)
-- **Select**: `FieldSelect`
-- **TextArea**: `FieldTextArea`
-- **CheckBox**: `FieldCheckBox`
-- **Switch**: `FieldSwitch`
-- **RadioGroup**: `FieldRadioGroup`
+- `ResizeContainer`: The main component that handles the resizable area.
+- `ContainerSectionLite`: A wrapper that displays width information and establishes the scope for container queries.
 
 ## 📄 License
 
